@@ -5,9 +5,12 @@ import com.deepl.api.test.model.MyTranslator;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Scanner;
 
 @Service
 public class TranslatorService {
@@ -16,8 +19,19 @@ public class TranslatorService {
 
     //DEEPL AUTHORIZATION
     public TranslatorService() throws Exception {
-        String authKey = "76b822d8-4d1a-9625-83e8-80687ee35f1e";
-        translator = new Translator(authKey);
+        String authKey = null;
+        try {
+            File file = new File("src\\main\\resources\\static\\key.txt");
+            FileInputStream fis = new FileInputStream(file);
+            Scanner scanner = new Scanner(fis);
+            if (scanner.hasNextLine()) {
+                authKey = scanner.nextLine();
+                translator = new Translator(authKey);
+            }
+            scanner.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //BASIC ENG ROW TRANSLATION
