@@ -1,9 +1,9 @@
-#UHP Translator
+# UHP Translator
 
-#Authors
+# Authors
 https://github.com/Cn1d3
 
-#Description
+# Description
 A simple project for translating words into selected languages using the Deepl API and my own specified glossary for it, which I created to improve the work experience of my coworkers and to improve my own API using skills, also implementing them into applications.
 Include:
 DeepL API used for translating;
@@ -11,7 +11,7 @@ languages choice;
 documents translation;
 own glossary with specified terms.
 
-#App Launch
+# App Launch
 Requirements:
 -JDK 21.0+
 -Intelij Idea IDE
