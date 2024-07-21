@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation Form</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const fileInput = document.getElementById('file-upload');
+            const submitButton = document.getElementById('submit-button');
+            const label = document.querySelector('label[for="file-upload"]');
+
+            if (label) {
+                label.textContent = 'Оберiть файл: .txt .pdf .docx';
+            }
+
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    submitButton.style.display = 'block';
+                } else {
+                    submitButton.style.display = 'none';
+                }
+            });
+        });
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.getElementById('english-link').addEventListener('click', function() {
+                localStorage.setItem('selectedLanguage', 'en');
+                document.getElementById('selected-language').value = 'en';
+                changeTranslationLanguage('en');
+                document.querySelector('form').submit();
+            });
+
+            document.getElementById('polish-link').addEventListener('click', function() {
+                localStorage.setItem('selectedLanguage', 'pl');
+                document.getElementById('selected-language').value = 'pl';
+                changeTranslationLanguage('pl');
+                document.querySelector('form').submit();
+            });
+
+            document.getElementById('ukranian-link').addEventListener('click', function() {
+                localStorage.setItem('selectedLanguage', 'uk');
+                document.getElementById('selected-language').value = 'uk';
+                changeTranslationLanguage('uk');
+                document.querySelector('form').submit();
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            var savedLanguage = localStorage.getItem('selectedLanguage');
+            if (savedLanguage) {
+                var dropdownButton = document.querySelector('.dropbtn');
+                if (savedLanguage === 'en') {
+                    dropdownButton.textContent = 'Англійська ▼';
+                } else if (savedLanguage === 'pl') {
+                    dropdownButton.textContent = 'Польська ▼';
+                } else if (savedLanguage === 'uk') {
+                    dropdownButton.textContent = 'Українська ▼';
+                }
+                document.getElementById('selected-language').value = savedLanguage;
+            }
+        });
+        function changeTranslationLanguage(language, element) {
+            var translationOutput = document.getElementById('translation-output');
+            var dropdownButton = document.querySelector('.dropbtn');
+
+            if (language === 'en') {
+                translationOutput.setAttribute('th:text', '${output_en}');
+                dropdownButton.textContent = 'Англійська ▼';
+            } else if (language === 'pl') {
+                translationOutput.setAttribute('th:text', '${output_pl}');
+                dropdownButton.textContent = 'Польська ▼';
+            } else if (language === 'uk') {
+                translationOutput.setAttribute('th:text', '${output_ua}');
+                dropdownButton.textContent = 'Українська ▼';
+            }
+            var dropdownContent = element.parentNode;
+            dropdownContent.prepend(element);
+        }
+
+    </script>
+    <style>
+        body {
+            font-family:'Arial', sans-serif;
+            background-color: #E6E7E5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        header {
+            background-color: #11235A;
+            left: 0;
+            z-index: 10;
+            color: #FBFBFB;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            text-align: center;
+        }
+        footer {
+            background-color: #11235A;
+            color: #FBFBFB;
+            bottom: 0;
+            z-index: 10;
+            text-align: center;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            margin-left: 0;
+            left: 0;
+        }
+        form {
+            background-color: white;
+            top: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 7px;
+        }
+
+        label {
+            color: #11235A;
+            border: none;
+            padding-top: 8px;
+            margin-top: 12px;
+            margin-bottom: 12px;
+            margin-right: 15px;
+            text-align: center;
+            width: 80%;
+            font-size: medium;
+        }
+
+        input {
+            width: 30%;
+            height: 50%;
+            box-sizing: border-box;
+            border: 1px solid #11235A;
+            position: absolute;
+        }
+
+        div {
+            background-color: #FBFBFB;
+            width: 100%;
+        }
+
+        button {
+            background-color: #11235A;
+            color: #FBFBFB;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            height: 60%;
+            margin-top:10px;
+            text-align: center;
+        }
+
+        button:hover {
+            background-color:#3559E0;
+        }
+
+        textarea {
+            width: 100%;
+            font-size: medium;
+            resize: none;
+            margin-right: 5px;
+            height: auto;
+            padding: 8px 0 0 8px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        img{
+            width: 20%;
+        }
+
+        .translations-container {
+            height: 400px;
+            width: 90%;
+            box-shadow: none;
+            display: flex;
+            margin-right: auto;
+            padding: 10px;
+            align-content: space-around;
+            margin-left: 4%;
+        }
+
+        .translation-result {
+            overflow-y: auto;
+            box-sizing: border-box;
+            border: 1px solid #333;
+            padding: 10px;
+            font-size: medium;
+            background-color: white;
+        }
+
+        .margin-div{
+            width: auto;
+            box-shadow: none;
+            margin-right: auto;
+            padding: 20px;
+            flex-basis: 45%;
+            background-color: white;
+            align-content: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .main{
+            width: 85%;
+            height: 83%;
+            background-color: #E6E7E5;
+            padding-top: 60px;
+        }
+
+        .space{
+            height: 130px;
+            background-color: #E6E7E5;
+        }
+
+        p {
+            width: 90%;
+            text-align: left;
+            margin: 0 5px;
+            height: auto;
+        }
+
+        h4 {
+            color: #11235A;
+            text-align: left;
+            font-family: Verdana, sans-serif;
+        }
+        a{
+            text-decoration: none;
+            color:  #E6E7E5;
+        }
+
+        .file-upload-wrapper {
+            margin-top: 2%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative; /* Changed from fixed to relative */
+            width: 40%; /* Adjust the width as needed */
+            display: flex;
+            flex-grow: 1;
+            border-radius: 7px;
+            align-items: center;
+            justify-content: space-between; /* Align items in a row */
+            padding: 0 10px;
+        }
+
+        .file-upload-input {
+            font-family: 'Arial', sans-serif;         ;
+            border: 2px solid #11235A;
+            border-radius: 4px;
+            padding: 10px 15px;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+        .dropbtn {
+            background-color: white;
+            color: #11235A;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 0;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            width: 10%;
+            float: right;
+            background-color:white;
+            margin-right: 40.4%;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color:white;
+            min-width: 160px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #E6E7E5
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: white;
+        }
+
+        #submit-button{
+            background-color: inherit;
+            color: #11235A;
+            border-radius: 0;
+            border: none;
+            font-family: 'Arial', sans-serif;
+            font-size: medium;
+            padding: 10px 15px; /* Adjust padding as needed */
+            display: block; /* Changed to block to make it visible */
+            margin-left: 10px; /* Space between label and button */
+            flex-shrink: 0; /* Prevents the button from shrinking */
+        }
+
+        .file-form{
+            display: flex;
+            background-color: #E6E7E5;
+            box-shadow: none;
+            margin-top: 0;
+            margin-bottom: 5%;
+        }
+        .container {
+            background-color: #E6E7E5;
+            box-shadow: none;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 20%;
+            margin-top: 2%;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>ПЕРЕКЛАДАЧ УГП</h1>
+</header>
+<div class = "main">
+    <form action="/test/file" method="post" class="file-form" enctype="multipart/form-data">
+        <div class="container">
+            <div class="file-upload-wrapper">
+            <img src="https://images.freeimages.com/fic/images/icons/2813/flat_jewels/512/file.png" alt="File">
+            <input type="file" name="file" id="file-upload" class="file-upload-input">
+            <label for="file-upload" id="file-upload-label"></label>
+            <button type="submit" id="submit-button" value="Download" style="display: none;">Перекласти</button>
+            </div>
+        </div>
+    </form>
+    <div class="dropdown">
+        <button class="dropbtn">Українська &#9660</button>
+        <div class="dropdown-content">
+            <a href="#" id="english-link">Англійська</a>
+            <a href="#" id="polish-link">Польська</a>
+            <a href="#" id="ukranian-link">Українська</a>
+        </div>
+    </div>
+    <form action="/test/translator" method="post" autofocus>
+        <input type="hidden" id="selected-language" name="selectedLanguage" value="uk">
+            <div class="translations-container">
+                <textarea id="textToTranslate" name="textToTranslate" th:text="${previousText}" rows="10" placeholder="Введіть текст...">
+                </textarea>
+                <div class="translation-result">
+                    <p id="translation-output" th:text="${output}"></p>
+                </div>
+            </div>
+            <div class="margin-div">
+                <button type="submit">Перекласти</button>
+            </div>
+    </form>
+    <div class = "space"></div>
+</div>
+<footer>
+    &copy Uhp 2024 All rights reserved
+</footer>
+</body>
+</html>
